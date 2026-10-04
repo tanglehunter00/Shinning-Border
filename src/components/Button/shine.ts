@@ -2,8 +2,9 @@ export type ShineType = "dark" | "light";
 
 type RGB = { r: number; g: number; b: number };
 
-const CYAN: RGB = { r: 163, g: 228, b: 246 };
-const PINK: RGB = { r: 255, g: 206, b: 236 };
+const CYAN: RGB = { r: 161, g: 228, b: 238 };
+const PEACH: RGB = { r: 255, g: 220, b: 172 };
+const PINK: RGB = { r: 255, g: 196, b: 223 };
 
 const THEMES: Record<ShineType, { edge: RGB; fill: RGB }> = {
   dark: {
@@ -53,6 +54,10 @@ function ramp(from: RGB, to: RGB): (t: number) => RGB {
   return (t: number) => lerp(from, to, t);
 }
 
+function ramp3(from: RGB, mid: RGB, to: RGB): (t: number) => RGB {
+  return (t: number) => (t <= 0.5 ? lerp(from, mid, t * 2) : lerp(mid, to, (t - 0.5) * 2));
+}
+
 function segmentClosest(
   x: number,
   y: number,
@@ -95,7 +100,7 @@ function arcClosest(
   return { t: (clamped - a0) / span, d2: dx * dx + dy * dy };
 }
 
-/** 顺时针描边：上边青到粉，右边粉，下边视觉上粉到青，左边青。 */
+/** 顺时针描边：上边青、桃、粉，右边粉，下边视觉上粉、桃、青，左边青。 */
 export function createOutline(width: number, height: number, radius: number): Outline {
   const rr = Math.min(Math.max(radius, 0), width / 2, height / 2);
   const features: Feature[] = [];
@@ -111,7 +116,7 @@ export function createOutline(width: number, height: number, radius: number): Ou
     cursor += length;
   };
 
-  add(Math.max(0, width - 2 * rr), ramp(CYAN, PINK), (x, y) =>
+  add(Math.max(0, width - 2 * rr), ramp3(CYAN, PEACH, PINK), (x, y) =>
     segmentClosest(x, y, rr, 0, width - rr, 0),
   );
   add((Math.PI * rr) / 2, solid(PINK), (x, y) =>
@@ -123,7 +128,7 @@ export function createOutline(width: number, height: number, radius: number): Ou
   add((Math.PI * rr) / 2, ramp(PINK, CYAN), (x, y) =>
     arcClosest(x, y, width - rr, height - rr, rr, 0, Math.PI / 2),
   );
-  add(Math.max(0, width - 2 * rr), ramp(CYAN, PINK), (x, y) =>
+  add(Math.max(0, width - 2 * rr), ramp3(CYAN, PEACH, PINK), (x, y) =>
     segmentClosest(x, y, width - rr, height, rr, height),
   );
   add((Math.PI * rr) / 2, ramp(PINK, CYAN), (x, y) =>
