@@ -1,0 +1,25 @@
+.demo {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 48px 24px;
+  background: #000;
+}
+
+.demo h1 {
+  margin: 0;
+  font: 600 28px/1.2 system-ui, "Segoe UI", sans-serif;
+  letter-spacing: -0.03em;
+  color: #fafafa;
+}
+
+.demo__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}

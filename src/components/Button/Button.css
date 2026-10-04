@@ -1,0 +1,64 @@
+.shine-button {
+  --fill: #000;
+  --label: #fafafa;
+
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  border-radius: var(--border-radius);
+  padding: calc(12px + var(--border-width) * 4) calc(22px + var(--border-width) * 4);
+  background: var(--fill);
+  color: var(--label);
+  font: 600 15px/1.2 system-ui, "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.shine-button[data-type="dark"] {
+  --fill: #000;
+  --label: #fafafa;
+}
+
+.shine-button[data-type="light"] {
+  --fill: #fff;
+  --label: #18181b;
+}
+
+.shine-button__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.shine-button__label {
+  position: relative;
+  z-index: 1;
+}
+
+.shine-button:hover {
+  transform: translateY(-1px);
+}
+
+.shine-button:active {
+  transform: translateY(0);
+}
+
+.shine-button:focus-visible {
+  outline: 2px solid var(--label);
+  outline-offset: 4px;
+}
+
+.shine-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
